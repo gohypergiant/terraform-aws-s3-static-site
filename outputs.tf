@@ -1,12 +1,14 @@
 output "s3_bucket_name" {
-  value = aws_s3_bucket.this.name
+  description = "Name of S3 bucket created"
+  value       = aws_s3_bucket.this.name
 }
 
-output "iam_polcy_arn" {
-  value = aws_iam_policy.s3-deployment.arn
+output "iam_policy_arn" {
+  description = "ARN of IAM policy for writing to static site bucket"
+  value       = aws_iam_policy.s3-deployment.arn
 }
 
 output "service_account_name" {
-  value = aws_iam_user.deployer.name
+  description = "Name of IAM service account that can write to the bucket"
+  value       = aws_iam_user.deployer.name
 }
-
