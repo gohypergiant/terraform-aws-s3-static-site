@@ -13,7 +13,7 @@ resource "aws_s3_bucket" "this" {
 }
 
 resource "aws_route53_record" "this" {
-  zone_id = var.route53_zone
+  zone_id = var.zone_id
   name    = var.app_hostname
   type    = "A"
 

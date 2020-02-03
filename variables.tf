@@ -15,7 +15,7 @@ variable "error_document" {
   default     = "error.html"
 }
 
-variable "route53_zone" {
+variable "zone_id" {
   type        = string
   description = "Target Route53 zone ID for new DNS record"
 }
