@@ -20,9 +20,9 @@ data "aws_iam_policy_document" "s3-deployment" {
 }
 
 resource "aws_iam_policy" "s3-deployment" {
-  name        = "${app_hostname}-s3-deployment-${random_id.iam.hex}"
+  name        = "${var.app_hostname}-s3-deployment-${random_id.iam.hex}"
   path        = "/"
-  description = "Policy for allowing service-account/deployment access to ${aws_s3_bucket.this.name}"
+  description = "Policy for allowing service-account/deployment access to ${aws_s3_bucket.this.id}"
   policy      = data.aws_iam_policy_document.s3-deployment.json
 }
 
