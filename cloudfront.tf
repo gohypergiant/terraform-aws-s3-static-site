@@ -41,7 +41,7 @@ resource "aws_cloudfront_distribution" "this" {
   price_class = var.cloudfront_price_class
 
   viewer_certificate {
-    acm_certificate_arn = module.acm.this_certificate_arn
+    acm_certificate_arn = module.acm.this_acm_certificate_arn
   }
 
   tags {
