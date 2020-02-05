@@ -64,3 +64,9 @@ variable "max_ttl" {
   description = "Maximum TTL of cached objects"
   default     = 3600
 }
+
+variable "cloudfront_price_class" {
+  type        = string
+  description = "Cloudfront price class to use. See https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_DistributionConfig.html for valid class names."
+  default     = "PriceClass_100"
+}
