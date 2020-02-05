@@ -18,8 +18,21 @@ resource "aws_route53_record" "this" {
   type    = "A"
 
   alias {
-    name                   = aws_s3_bucket.this.website_domain
-    zone_id                = aws_s3_bucket.this.hosted_zone_id
-    evaluate_target_health = true
+    name                   = aws_cloudfront_distribution.this.web_domain_name
+    zone_id                = aws_cloudfront_distribution.this.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+
+module "acm" {
+  source  = "terraform-aws-modules/acm/aws"
+  version = "~> 2.0"
+
+  domain_name         = var.bucket_name
+  wait_for_validation = false
+  validation_method   = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
