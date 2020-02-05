@@ -26,7 +26,7 @@ resource "aws_route53_record" "this" {
 
 module "acm" {
   source  = "terraform-aws-modules/acm/aws"
-  version = "~> 2.0"
+  version = "2.5.0"
 
   domain_name         = var.bucket_name
   wait_for_validation = false
