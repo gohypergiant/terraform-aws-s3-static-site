@@ -12,12 +12,19 @@ resource "aws_cloudfront_distribution" "this" {
     }
   }
 
-  # aliases = [var.app_hostname]
+  aliases = var.cnames
 
   enabled             = true
   is_ipv6_enabled     = true
   comment             = "Cloudfront Distribution for ${var.app_hostname}"
   default_root_object = "index.html"
+
+  logging_config {
+    include_cookies = false
+    bucket          = aws_s3_bucket.logs.bucket_domain_name
+    prefix          = "${var.log_prefix}/cloudfront/"
+  }
+
 
   default_cache_behavior {
     allowed_methods  = var.allowed_methods
