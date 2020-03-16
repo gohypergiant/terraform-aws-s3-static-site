@@ -10,6 +10,17 @@ resource "aws_s3_bucket" "this" {
     index_document = var.index_document
     error_document = var.error_document
   }
+
+  logging {
+    target_bucket = aws_s3_bucket.logs.id
+    target_prefix = "${var.log_prefix}/s3"
+  }
+
+}
+
+resource "aws_s3_bucket" "logs" {
+  bucket = var.log_bucket_name
+  acl    = "log-delivery-write"
 }
 
 resource "aws_route53_record" "this" {
