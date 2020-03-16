@@ -3,6 +3,16 @@ variable "bucket_name" {
   description = "Name of bucket for static site"
 }
 
+variable "log_bucket_name" {
+  type        = string
+  description = "Name of S3 bucket to create for storing logs"
+}
+
+variable "log_prefix" {
+  type        = string
+  description = "Prefix to use for S3 bucket logging."
+}
+
 variable "index_document" {
   type        = string
   description = "Index document for static site"
@@ -59,6 +69,7 @@ variable "default_ttl" {
   description = "Default TTL of cached objects"
   default     = 300
 }
+
 variable "max_ttl" {
   type        = number
   description = "Maximum TTL of cached objects"
@@ -86,4 +97,9 @@ variable "geo_restriction_locations" {
 variable "acm_certificate_arn" {
   type        = string
   description = "ARN of ACM certificate resource located in us-east-1"
+}
+
+variable "cnames" {
+  type        = list(string)
+  description = "List of hostnames/CNAMEs the Cloudfront distribution should respond to"
 }
