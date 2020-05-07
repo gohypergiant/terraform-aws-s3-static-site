@@ -10,7 +10,7 @@ resource "aws_s3_bucket" "this" {
   acl    = "public-read"
 
   versioning {
-    enabled = var.versioning
+    enabled = var.bucket_versioning
   }
 
   website {

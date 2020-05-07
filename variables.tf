@@ -104,7 +104,7 @@ variable "cnames" {
   description = "List of hostnames/CNAMEs the Cloudfront distribution should respond to"
 }
 
-variable "versioning" {
+variable "bucket_versioning" {
   type        = bool
   description = "Enable bucket versioning"
   default     = true
