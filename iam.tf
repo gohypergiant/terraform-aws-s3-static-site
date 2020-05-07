@@ -33,6 +33,7 @@ resource "aws_iam_user" "deployer" {
 }
 
 resource "aws_iam_user_policy_attachment" "this" {
+  // checkov:skip=CKV_AWS_40: Service account gets direct policy attachment
   user       = aws_iam_user.deployer.name
   policy_arn = aws_iam_policy.s3-deployment.arn
 }
