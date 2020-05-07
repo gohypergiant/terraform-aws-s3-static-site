@@ -23,5 +23,5 @@ jobs:
       - name: Install checkov
         run: pip install checkov
 
-      - name: Check blps
+      - name: Test policies
         run: checkov -d .
