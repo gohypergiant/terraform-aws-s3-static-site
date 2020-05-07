@@ -5,7 +5,7 @@ on:
 
 jobs:
   checkov:
-    name: Checkov Policy Test
+    name: Policy Test
     runs-on: ubuntu-latest
 
     steps:
