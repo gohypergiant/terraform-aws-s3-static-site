@@ -3,8 +3,15 @@ resource "random_id" "iam" {
 }
 
 resource "aws_s3_bucket" "this" {
+  // checkov:skip=CKV_AWS_19: Do not encrypt public buckets
+  // checkov:skip=CKV_AWS_20: Public bucket should have public-read
+  // checkov:skip=CKV_AWS_52: AWS+TF do not properly support mfa_delete
   bucket = var.bucket_name
   acl    = "public-read"
+
+  versioning {
+    enabled = var.versioning
+  }
 
   website {
     index_document = var.index_document
