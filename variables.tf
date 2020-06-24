@@ -1,3 +1,5 @@
+// Copyright 2020 Hypergiant, LLC
+
 variable "bucket_name" {
   type        = string
   description = "Name of bucket for static site"
