@@ -23,10 +23,14 @@ This module is maintained by the Hypergiant Infrastructure Engineering Team
 
 ## How is this Module versioned?
 
-This Module follows the principles of [Semantic Versioning](http://semver.org/). You can find each new release,
-along with the changelog, in the [Releases Page](../../releases).
+This Module follows the principles of [Semantic Versioning](http://semver.org/). You can find each new release, along with the changelog, in the [Releases Page](../../releases).
 
-During initial development, the major version will be 0 (e.g., `0.x.y`), which indicates the code does not yet have a
-stable API. Once we hit `1.0.0`, we will make every effort to maintain a backwards compatible API and use the MAJOR,
-MINOR, and PATCH versions on each release to indicate any incompatibilities.
+During initial development, the major version will be 0 (e.g., `0.x.y`), which indicates the code does not yet have a stable API. Once we hit `1.0.0`, we will make every effort to maintain a backwards compatible API and use the MAJOR, MINOR, and PATCH versions on each release to indicate any incompatibilities.
+
+## Contributing
+
+See our [Contributing Guidelines](contributing.md)
+
+## License
+This repository is licensed under [Apache 2.0](LICENSE.md)
 

@@ -1,3 +1,5 @@
+// Copyright 2020 Hypergiant Industries
+
 resource "random_id" "iam" {
   byte_length = 2
 }
