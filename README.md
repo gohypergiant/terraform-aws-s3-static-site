@@ -4,7 +4,7 @@
 
 [![Hypergiant](https://i.imgur.com/cLjriJj.jpg)](https://www.hypergiant.com/)
 
-This module provides the resources, IAM policies, and configuration for setting up your public, S3-hosted static site with a Cloudfront distribution
+This module provides the resources, IAM policies, and configuration for setting up your public, S3-hosted static site with a Cloudfront distribution.
 
 This Module includes:
  - S3 bucket
@@ -13,13 +13,13 @@ This Module includes:
  - IAM policy for attaching to principals such as users, roles, or groups to grant write access to the S3 bucket backing Cloudfront
 
 ## How do you use this Module?
-This module requires that you provide it a Route53 zone and an AWS provider in `us-east-1`. If you are running your infrastructure in a region outside `us-east-1`, initialize a new provider and pass that to the module as show in our [examples](exmaples/complete/main.tf). This is because Cloudfront requires that certificates it uses be created in us-east-1, so all the regionally bound resources must also be in us-east-1.
+This module requires that you provide it a Route53 zone and an AWS provider in `us-east-1`. If you are running your infrastructure in a region outside `us-east-1`, initialize a new provider and pass that to the module as shown in our [examples](exmaples/complete/main.tf). This is because Cloudfront requires that certificates it uses be created in us-east-1, so all the regionally bound resources must also be in us-east-1.
 
 After initializing and running terraform with this module, you will have an S3 bucket with a public-read ACL, IAM policy, and IAM user that can be used as a service account, such as for automating deployments with CI/CD pipelines.
 
 ## Who maintains this Module?
 
-This module is maintained by the Hypergiant Infrastructure Engineering Team
+This module is maintained by the Hypergiant Infrastructure Engineering Team.
 
 ## How is this Module versioned?
 
@@ -29,8 +29,8 @@ During initial development, the major version will be 0 (e.g., `0.x.y`), which i
 
 ## Contributing
 
-See our [Contributing Guidelines](contributing.md)
+See our [Contributing Guidelines](contributing.md).
 
 ## License
-This repository is licensed under [Apache 2.0](LICENSE.md)
+This repository is licensed under [Apache 2.0](LICENSE.md).
 
