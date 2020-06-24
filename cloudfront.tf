@@ -1,4 +1,4 @@
-// Copyright 2020 Hypergiant Industries
+// Copyright 2020 Hypergiant, LLC
 
 resource "aws_cloudfront_origin_access_identity" "this" {
   comment = "Origin Access Identity for ${var.app_hostname}"
