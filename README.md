@@ -1,30 +1,21 @@
 # S3 Static Site Module
 
-This module provides the resources, IAM policies, and configuration for setting up your public, S3-hosted static site.
+![Checkov](https://github.com/gohypergiant/terraform-aws-s3-static-site/workflows/Checkov/badge.svg)
+
+[![Hypergiant](https://i.imgur.com/cLjriJj.jpg)](https://www.hypergiant.com/)
+
+This module provides the resources, IAM policies, and configuration for setting up your public, S3-hosted static site with a Cloudfront distribution
 
 This Module includes:
  - S3 bucket
  - IAM user with read, write, and delete policy scoped to the bucket
- - Route53 A-record with Alias pointing to S3 bucket
+ - Route53 A-record with Alias pointing to Cloudfront distribution
+ - IAM policy for attaching to principals such as users, roles, or groups to grant write access to the S3 bucket backing Cloudfront
 
 ## How do you use this Module?
-This module requires that you provide it a Route53 zone. Aside from that, it needs no other preexisting resources.
+This module requires that you provide it a Route53 zone and an AWS provider in `us-east-1`. If you are running your infrastructure in a region outside `us-east-1`, initialize a new provider and pass that to the module as show in our [examples](exmaples/complete/main.tf). This is because Cloudfront requires that certificates it uses be created in us-east-1, so all the regionally bound resources must also be in us-east-1.
 
-After initializing and running terraform with this module, you will have an S3 bucket with a public-read ACL,
-IAM policy, and IAM user that can be used as a service account, such as for automating deployments with CI/CD
-pipelines.
-
-## What's a Module?
-
-A Module is a canonical, reusable, best-practices definition for how to run a single piece of infrastructure, such
-as a database or server cluster. Each Module is created primarily using [Terraform](https://www.terraform.io/),
-includes automated tests, examples, and documentation, and is maintained both by the open source community and
-companies that provide commercial support.
-
-Instead of having to figure out the details of how to run a piece of infrastructure from scratch, you can reuse
-existing code that has been proven in production. And instead of maintaining all that infrastructure code yourself,
-you can leverage the work of the Module community and maintainers, and pick up infrastructure improvements through
-a version number bump.
+After initializing and running terraform with this module, you will have an S3 bucket with a public-read ACL, IAM policy, and IAM user that can be used as a service account, such as for automating deployments with CI/CD pipelines.
 
 ## Who maintains this Module?
 
