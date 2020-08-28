@@ -1,5 +1,14 @@
 // Copyright 2020 Hypergiant, LLC
 
+locals {
+  spa_custom_error_response = {
+    error_caching_min_ttl = var.min_ttl
+    error_code            = 404
+    response_code         = 200
+    response_page_path    = var.index_document
+  }
+}
+
 resource "aws_cloudfront_origin_access_identity" "this" {
   comment = "Origin Access Identity for ${var.app_hostname}"
 }
@@ -19,7 +28,7 @@ resource "aws_cloudfront_distribution" "this" {
   enabled             = true
   is_ipv6_enabled     = true
   comment             = "Cloudfront Distribution for ${var.app_hostname}"
-  default_root_object = "index.html"
+  default_root_object = var.index_document
 
   logging_config {
     include_cookies = false
@@ -60,4 +69,8 @@ resource "aws_cloudfront_distribution" "this" {
     acm_certificate_arn = var.acm_certificate_arn
     ssl_support_method  = "sni-only"
   }
+
+  custom_error_response = [
+    locals.spa_custom_error_response
+  ]
 }
