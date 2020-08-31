@@ -27,6 +27,23 @@ variable "error_document" {
   default     = "error.html"
 }
 
+variable "enable_spa" {
+  type        = bool
+  description = "Enable SPA error handler. Disable for true multi-page behavior"
+  default     = true
+}
+
+variable "custom_error_response" {
+  type = list(object({
+    error_caching_min_ttl = number
+    error_code            = number
+    response_code         = number
+    response_page_path    = string
+  }))
+  description = "A list of CloudFront custom_error_response objects"
+  default     = []
+}
+
 variable "zone_id" {
   type        = string
   description = "Target Route53 zone ID for new DNS record"
@@ -80,7 +97,7 @@ variable "max_ttl" {
 
 variable "cloudfront_price_class" {
   type        = string
-  description = "Cloudfront price class to use. See https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_DistributionConfig.html for valid class names."
+  description = "Cloudfront price class to use. See [CloudFront DistributionConfig](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_DistributionConfig.html) for valid class names."
   default     = "PriceClass_100"
 }
 

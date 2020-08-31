@@ -1,12 +1,14 @@
 // Copyright 2020 Hypergiant, LLC
 
 locals {
-  spa_custom_error_response = {
-    error_caching_min_ttl = var.min_ttl
-    error_code            = 404
-    response_code         = 200
-    response_page_path    = var.index_document
-  }
+  spa_custom_error_response = [
+    {
+      error_caching_min_ttl = var.min_ttl
+      error_code            = 404
+      response_code         = 200
+      response_page_path    = var.index_document
+    }
+  ]
 }
 
 resource "aws_cloudfront_origin_access_identity" "this" {
@@ -70,7 +72,8 @@ resource "aws_cloudfront_distribution" "this" {
     ssl_support_method  = "sni-only"
   }
 
-  custom_error_response = [
-    locals.spa_custom_error_response
-  ]
+  custom_error_response = concat(
+    var.enable_spa ? locals.spa_custom_error_response : [],
+    var.custom_error_response
+  )
 }
