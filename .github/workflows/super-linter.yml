@@ -1,0 +1,24 @@
+name: Super-Linter
+
+on:
+  push:
+    branches: [ stable ]
+    
+env:
+  LOG_FILE: super-linter.log
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Super-Linter
+        uses: github/super-linter@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: true
+          DEFAULT_BRANCH: "stable"
+          VALIDATE_TERRAFORM: true
+          VALIDATE_TERRAFORM_TERRASCAN: true
+          VALIDATE_YAML: true
