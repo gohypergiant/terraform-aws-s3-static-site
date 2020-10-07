@@ -139,6 +139,6 @@ variable "origin" {
 variable "ordered_cache_behavior" {
   type        = list(object)
   description = "API gateway ordered_cache_behavior blocks"
-  default     = {}
+  default     = []
 }
 
