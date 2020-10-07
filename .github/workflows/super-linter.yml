@@ -20,5 +20,4 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: "stable"
           VALIDATE_TERRAFORM: true
-          VALIDATE_TERRAFORM_TERRASCAN: true
           VALIDATE_YAML: true
