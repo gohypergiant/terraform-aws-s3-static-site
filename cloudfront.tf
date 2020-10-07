@@ -17,22 +17,50 @@ resource "aws_cloudfront_origin_access_identity" "this" {
 
 resource "aws_cloudfront_distribution" "this" {
   // checkov:skip=CKV_AWS_68:CloudFront Distribution should have WAF enabled
+  origin {
+    domain_name = aws_s3_bucket.this.bucket_regional_domain_name
+    origin_id   = aws_s3_bucket.this.bucket
 
-  origin = concat(
-    var.origin,
-    [
-      {
-        domain_name = aws_s3_bucket.this.bucket_regional_domain_name
-        origin_id   = aws_s3_bucket.this.bucket
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.this.cloudfront_access_identity_path
+    }
+  }
 
-        s3_origin_config = [
-          {
-            origin_access_identity = aws_cloudfront_origin_access_identity.this.cloudfront_access_identity_path
-          }
-        ]
-      }
-    ]
-  )
+  dynamic "origin" {
+    for_each = var.proxies
+
+    content {
+      domain_name = origin.destination.domain
+      origin_id   = "${origin.destination.domain}-${origin.destination.path}"
+    }
+  }
+
+  dynamic "ordered_cache_behavior" {
+    for_each = var.proxies
+
+    content {
+      path_patern      = ordered_cache_behavior.path
+      target_origin_id = "${ordered_cache_behavior.destination.domain}-${ordered_cache_behavior.destination.path}"
+      allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+      cached_methods   = []
+      forwarded_values = [
+        {
+          headers      = ["Accept", "Authorization"]
+          query_string = true
+          cookies = [
+            {
+              forward = "none"
+            }
+          ]
+        }
+      ]
+      viewer_protocol_policy = "redirect-to-https"
+      min_ttl                = 0
+      default_ttl            = 0
+      max_ttl                = 0
+      compress               = true
+    }
+  }
 
   aliases = var.cnames
 

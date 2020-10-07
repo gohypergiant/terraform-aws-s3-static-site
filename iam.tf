@@ -9,13 +9,15 @@ data "aws_iam_policy_document" "s3-deployment" {
       "s3:DeleteObject",
       "s3:PutObjectAcl"
     ]
-    resources = ["${aws_s3_bucket.this.arn}/*"]
+    resources = [
+      "${aws_s3_bucket.this.arn}/*",
+      aws_s3_bucket.this.arn
+    ]
   }
 
   statement {
     actions = [
       "s3:ListAllMyBuckets",
-      "s3:HeadBucket"
     ]
     resources = ["*"]
   }
