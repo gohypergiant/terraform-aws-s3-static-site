@@ -128,3 +128,17 @@ variable "bucket_versioning" {
   description = "Enable bucket versioning"
   default     = true
 }
+
+variable "origin" {
+  type        = list(object)
+  description = "API gateway origins blocks"
+  default     = []
+}
+
+
+variable "ordered_cache_behavior" {
+  type        = list(object)
+  description = "API gateway ordered_cache_behavior blocks"
+  default     = {}
+}
+
