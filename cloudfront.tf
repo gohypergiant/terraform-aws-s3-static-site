@@ -16,6 +16,8 @@ resource "aws_cloudfront_origin_access_identity" "this" {
 }
 
 resource "aws_cloudfront_distribution" "this" {
+  // checkov:skip=CKV_AWS_68:CloudFront Distribution should have WAF enabled
+
   origin = concat(
     var.origin,
     [
