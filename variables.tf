@@ -131,14 +131,14 @@ variable "bucket_versioning" {
 
 variable "origin" {
   type        = list(object)
-  description = "API gateway origins blocks"
+  description = "Passthrough API gateway origins blocks"
   default     = []
 }
 
 
 variable "ordered_cache_behavior" {
   type        = list(object)
-  description = "API gateway ordered_cache_behavior blocks"
+  description = "Passthrough API gateway ordered_cache_behavior blocks"
   default     = []
 }
 
