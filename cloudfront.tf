@@ -16,14 +16,19 @@ resource "aws_cloudfront_origin_access_identity" "this" {
 }
 
 resource "aws_cloudfront_distribution" "this" {
-  origin {
-    domain_name = aws_s3_bucket.this.bucket_regional_domain_name
-    origin_id   = aws_s3_bucket.this.bucket
+  origin = concat(
+    var.origin,
+    [
+      {
+        domain_name = aws_s3_bucket.this.bucket_regional_domain_name
+        origin_id   = aws_s3_bucket.this.bucket
 
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.this.cloudfront_access_identity_path
-    }
-  }
+        s3_origin_config {
+          origin_access_identity = aws_cloudfront_origin_access_identity.this.cloudfront_access_identity_path
+        }
+      }
+    ]
+  )
 
   aliases = var.cnames
 
@@ -57,6 +62,8 @@ resource "aws_cloudfront_distribution" "this" {
     default_ttl            = var.default_ttl
     max_ttl                = var.max_ttl
   }
+
+  ordered_cache_behavior = var.ordered_cache_behavior
 
   price_class = var.cloudfront_price_class
 
