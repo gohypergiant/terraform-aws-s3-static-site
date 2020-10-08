@@ -53,7 +53,7 @@ resource "aws_cloudfront_distribution" "this" {
       path_pattern     = ordered_cache_behavior.value.path
       target_origin_id = "${ordered_cache_behavior.value.destination.domain}-${ordered_cache_behavior.value.destination.path}"
       allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-      cached_methods   = ["HEAD", "OPTIONS"]
+      cached_methods   = ["HEAD", "GET", "OPTIONS"]
       forwarded_values {
         headers      = ["Accept", "Authorization"]
         query_string = true
