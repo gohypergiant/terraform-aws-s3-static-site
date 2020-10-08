@@ -34,7 +34,15 @@ resource "aws_cloudfront_distribution" "this" {
 
     content {
       domain_name = origin.value.destination.domain
+      origin_path = origin.value.destination.path
       origin_id   = "${origin.value.destination.domain}-${origin.value.destination.path}"
+
+      custom_origin_config {
+        http_port              = 80
+        https_port             = 443
+        origin_protocol_policy = "https-only"
+        origin_ssl_protocols   = ["TLSv1.2"]
+      }
     }
   }
 
