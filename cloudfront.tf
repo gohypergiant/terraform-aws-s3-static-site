@@ -21,7 +21,7 @@ resource "aws_cloudfront_origin_access_identity" "this" {
 resource "aws_cloudfront_distribution" "this" {
   // checkov:skip=CKV_AWS_68:CloudFront Distribution should have WAF enabled
   origin {
-    domain_name = aws_s3_bucket.this.bucket_regional_domain_name
+    domain_name = aws_s3_bucket.this.website_endpoint
     origin_id   = aws_s3_bucket.this.bucket
 
     s3_origin_config {
