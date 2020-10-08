@@ -129,16 +129,14 @@ variable "bucket_versioning" {
   default     = true
 }
 
-variable "origin" {
-  type        = list(map(string))
-  description = "Passthrough API gateway origins blocks"
+variable "proxies" {
+  type = list(object({
+    destination = object({
+      domain = string
+      path   = string
+    })
+    path = string
+  }))
+  description = "Paths to proxy and their destinations"
   default     = []
 }
-
-
-variable "ordered_cache_behavior" {
-  type        = list(map(string))
-  description = "Passthrough API gateway ordered_cache_behavior blocks"
-  default     = []
-}
-
