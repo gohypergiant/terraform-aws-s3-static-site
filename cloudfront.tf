@@ -1,14 +1,17 @@
 // Copyright 2020 Hypergiant, LLC
 
 locals {
-  spa_custom_error_response = [
-    {
-      error_caching_min_ttl = var.min_ttl
-      error_code            = 404
-      response_code         = 200
-      response_page_path    = var.index_document
-    }
-  ]
+  custom_error_response = concat(
+    var.enable_spa ? [
+      {
+        error_caching_min_ttl = var.min_ttl
+        error_code            = 404
+        response_code         = 200
+        response_page_path    = var.index_document
+      }
+    ] : [],
+    var.custom_error_response
+  )
 }
 
 resource "aws_cloudfront_origin_access_identity" "this" {
@@ -39,21 +42,17 @@ resource "aws_cloudfront_distribution" "this" {
     for_each = var.proxies
 
     content {
-      path_patern      = ordered_cache_behavior.path
+      path_pattern     = ordered_cache_behavior.path
       target_origin_id = "${ordered_cache_behavior.destination.domain}-${ordered_cache_behavior.destination.path}"
       allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
       cached_methods   = []
-      forwarded_values = [
-        {
-          headers      = ["Accept", "Authorization"]
-          query_string = true
-          cookies = [
-            {
-              forward = "none"
-            }
-          ]
+      forwarded_values {
+        headers      = ["Accept", "Authorization"]
+        query_string = true
+        cookies {
+          forward = "none"
         }
-      ]
+      }
       viewer_protocol_policy = "redirect-to-https"
       min_ttl                = 0
       default_ttl            = 0
@@ -95,8 +94,6 @@ resource "aws_cloudfront_distribution" "this" {
     max_ttl                = var.max_ttl
   }
 
-  ordered_cache_behavior = var.ordered_cache_behavior
-
   price_class = var.cloudfront_price_class
 
   restrictions {
@@ -111,8 +108,14 @@ resource "aws_cloudfront_distribution" "this" {
     ssl_support_method  = "sni-only"
   }
 
-  custom_error_response = concat(
-    var.enable_spa ? locals.spa_custom_error_response : [],
-    var.custom_error_response
-  )
+  dynamic "custom_error_response" {
+    for_each = local.custom_error_response
+
+    content {
+      error_caching_min_ttl = custom_error_response.error_caching_min_ttl
+      error_code            = custom_error_response.error_code
+      response_code         = custom_error_response.response_code
+      response_page_path    = custom_error_response.response_page_path
+    }
+  }
 }
