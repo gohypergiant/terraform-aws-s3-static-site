@@ -14,18 +14,17 @@ locals {
   )
 }
 
-resource "aws_cloudfront_origin_access_identity" "this" {
-  comment = "Origin Access Identity for ${var.app_hostname}"
-}
-
 resource "aws_cloudfront_distribution" "this" {
   // checkov:skip=CKV_AWS_68:CloudFront Distribution should have WAF enabled
   origin {
     domain_name = aws_s3_bucket.this.website_endpoint
     origin_id   = aws_s3_bucket.this.bucket
 
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.this.cloudfront_access_identity_path
+    custom_origin_config {
+      http_port              = "80"
+      https_port             = "443"
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
 
