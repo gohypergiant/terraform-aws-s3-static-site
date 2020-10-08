@@ -1,5 +1,7 @@
 // Copyright 2020 Hypergiant, LLC
 
+data "aws_region" "current" {}
+
 resource "random_id" "iam" {
   byte_length = 2
 }
@@ -9,6 +11,7 @@ resource "aws_s3_bucket" "this" {
   // checkov:skip=CKV_AWS_52: AWS+TF do not properly support mfa_delete
   bucket = var.bucket_name
   acl    = "public-read"
+  region = coalesce(var.region, data.aws_region.current.name)
 
   versioning {
     enabled = var.bucket_versioning
