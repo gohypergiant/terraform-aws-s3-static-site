@@ -33,8 +33,8 @@ resource "aws_cloudfront_distribution" "this" {
     for_each = var.proxies
 
     content {
-      domain_name = origin.destination.domain
-      origin_id   = "${origin.destination.domain}-${origin.destination.path}"
+      domain_name = origin.value.destination.domain
+      origin_id   = "${origin.value.destination.domain}-${origin.value.destination.path}"
     }
   }
 
@@ -42,8 +42,8 @@ resource "aws_cloudfront_distribution" "this" {
     for_each = var.proxies
 
     content {
-      path_pattern     = ordered_cache_behavior.path
-      target_origin_id = "${ordered_cache_behavior.destination.domain}-${ordered_cache_behavior.destination.path}"
+      path_pattern     = ordered_cache_behavior.value.path
+      target_origin_id = "${ordered_cache_behavior.value.destination.domain}-${ordered_cache_behavior.value.destination.path}"
       allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
       cached_methods   = []
       forwarded_values {
@@ -112,10 +112,10 @@ resource "aws_cloudfront_distribution" "this" {
     for_each = local.custom_error_response
 
     content {
-      error_caching_min_ttl = custom_error_response.error_caching_min_ttl
-      error_code            = custom_error_response.error_code
-      response_code         = custom_error_response.response_code
-      response_page_path    = custom_error_response.response_page_path
+      error_caching_min_ttl = custom_error_response.value.error_caching_min_ttl
+      error_code            = custom_error_response.value.error_code
+      response_code         = custom_error_response.value.response_code
+      response_page_path    = custom_error_response.value.response_page_path
     }
   }
 }
