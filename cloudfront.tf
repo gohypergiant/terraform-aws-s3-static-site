@@ -7,7 +7,7 @@ locals {
         error_caching_min_ttl = var.min_ttl
         error_code            = 404
         response_code         = 200
-        response_page_path    = var.index_document
+        response_page_path    = "/${var.index_document}"
       }
     ] : [],
     var.custom_error_response
