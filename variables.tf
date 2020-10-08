@@ -140,3 +140,9 @@ variable "proxies" {
   description = "Paths to proxy and their destinations"
   default     = []
 }
+
+variable "region" {
+  type        = string
+  description = "AWS Region"
+  default     = ""
+}
