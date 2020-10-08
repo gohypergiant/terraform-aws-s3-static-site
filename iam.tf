@@ -7,7 +7,8 @@ data "aws_iam_policy_document" "s3-deployment" {
       "s3:GetObject",
       "s3:ListBucket",
       "s3:DeleteObject",
-      "s3:PutObjectAcl"
+      "s3:PutObjectAcl",
+      "cloudfront:CreateInvalidation",
     ]
     resources = [
       "${aws_s3_bucket.this.arn}/*",
@@ -17,9 +18,24 @@ data "aws_iam_policy_document" "s3-deployment" {
 
   statement {
     actions = [
+      "cloudfront:CreateInvalidation",
       "s3:ListAllMyBuckets",
     ]
     resources = ["*"]
+  }
+
+  statement {
+    actions = [
+      "s3:PutObject",
+      "s3:GetObject",
+      "s3:ListBucket",
+      "s3:DeleteObject",
+      "s3:PutObjectAcl"
+    ]
+    resources = [
+      "${aws_s3_bucket.this.arn}/*",
+      aws_s3_bucket.this.arn
+    ]
   }
 }
 
