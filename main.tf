@@ -37,7 +37,6 @@ resource "aws_s3_bucket" "this" {
   bucket = var.bucket_name
   acl    = "private"
   region = coalesce(var.region, data.aws_region.current.name)
-  policy = data.aws_iam_policy_document.referer.json
 
   versioning {
     enabled = var.bucket_versioning
@@ -60,6 +59,11 @@ resource "aws_s3_bucket" "this" {
       }
     }
   }
+}
+
+resource "aws_s3_bucket_policy" "referer" {
+  bucket = aws_s3_bucket.this.id
+  policy = data.aws_iam_policy_document.referer.json
 }
 
 resource "aws_s3_bucket" "logs" {
