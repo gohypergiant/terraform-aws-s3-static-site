@@ -26,6 +26,11 @@ resource "aws_cloudfront_distribution" "this" {
       origin_protocol_policy = "http-only"
       origin_ssl_protocols   = ["TLSv1.2"]
     }
+
+    custom_header {
+      name  = "Referer"
+      value = random_uuid.referer.result
+    }
   }
 
   dynamic "origin" {
