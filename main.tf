@@ -6,12 +6,38 @@ resource "random_id" "iam" {
   byte_length = 2
 }
 
+resource "random_uuid" "referer" {}
+
+data "aws_iam_policy_document" "referer" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:GetObject",
+      "s3:GetObjectVersion",
+    ]
+    resources = ["${aws_s3_bucket.this.arn}/*"]
+
+    condition {
+      test     = "StringLike"
+      variable = "aws:Referer"
+      values = [
+        random_uuid.referer.result
+      ]
+    }
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+  }
+}
+
 resource "aws_s3_bucket" "this" {
-  // checkov:skip=CKV_AWS_20: Public bucket should have public-read
   // checkov:skip=CKV_AWS_52: AWS+TF do not properly support mfa_delete
   bucket = var.bucket_name
-  acl    = "public-read"
+  acl    = "private"
   region = coalesce(var.region, data.aws_region.current.name)
+  policy = data.aws_iam_policy_document.referer.json
 
   versioning {
     enabled = var.bucket_versioning
