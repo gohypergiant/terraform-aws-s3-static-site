@@ -137,7 +137,7 @@ variable "proxies" {
     })
     path = string
   }))
-  description = "Paths to proxy and their destinations"
+  description = "Paths to proxies and their destinations, no wildcards"
   default     = []
 }
 
