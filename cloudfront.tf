@@ -56,11 +56,35 @@ resource "aws_cloudfront_distribution" "this" {
     }
   }
 
+  # Base path proxy
   dynamic "ordered_cache_behavior" {
     for_each = var.proxies
 
     content {
       path_pattern     = ordered_cache_behavior.value.path
+      target_origin_id = "${ordered_cache_behavior.value.destination.domain}-${ordered_cache_behavior.value.destination.path}"
+      allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+      cached_methods   = ["HEAD", "GET", "OPTIONS"]
+      forwarded_values {
+        headers      = ["Accept", "Authorization"]
+        query_string = true
+        cookies {
+          forward = "none"
+        }
+      }
+      viewer_protocol_policy = "redirect-to-https"
+      min_ttl                = 0
+      default_ttl            = 0
+      max_ttl                = 0
+      compress               = true
+    }
+  }
+  # Additional wildcard for the proxy.
+  dynamic "ordered_cache_behavior" {
+    for_each = var.proxies
+
+    content {
+      path_pattern     = "${ordered_cache_behavior.value.path}/*"
       target_origin_id = "${ordered_cache_behavior.value.destination.domain}-${ordered_cache_behavior.value.destination.path}"
       allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
       cached_methods   = ["HEAD", "GET", "OPTIONS"]
@@ -132,8 +156,8 @@ resource "aws_cloudfront_distribution" "this" {
     content {
       error_caching_min_ttl = custom_error_response.value.error_caching_min_ttl
       error_code            = custom_error_response.value.error_code
-      response_code         = custom_error_response.value.response_code
-      response_page_path    = custom_error_response.value.response_page_path
+      response_code         = lookup(custom_error_response.value, "response_code", null)
+      response_page_path    = lookup(custom_error_response.value, "response_page_path", null)
     }
   }
 }
