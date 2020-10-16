@@ -10,7 +10,13 @@ locals {
         response_page_path    = "/${var.index_document}"
       }
     ] : [],
-    var.custom_error_response
+    var.custom_error_response,
+    [      
+      {
+        error_caching_min_ttl = 0
+        error_code            = 500
+      }
+    ]
   )
 }
 
