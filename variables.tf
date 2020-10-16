@@ -80,19 +80,19 @@ variable "forward_query_string" {
 variable "min_ttl" {
   type        = number
   description = "Minimum TTL of cached objects"
-  default     = 0
+  default     = 86400
 }
 
 variable "default_ttl" {
   type        = number
   description = "Default TTL of cached objects"
-  default     = 300
+  default     = 86400
 }
 
 variable "max_ttl" {
   type        = number
   description = "Maximum TTL of cached objects"
-  default     = 3600
+  default     = 86400
 }
 
 variable "cloudfront_price_class" {
