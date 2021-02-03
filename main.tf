@@ -36,7 +36,6 @@ resource "aws_s3_bucket" "this" {
   // checkov:skip=CKV_AWS_52: AWS+TF do not properly support mfa_delete
   bucket = var.bucket_name
   acl    = "private"
-  region = coalesce(var.region, data.aws_region.current.name)
 
   versioning {
     enabled = var.bucket_versioning
